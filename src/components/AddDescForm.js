@@ -2,32 +2,33 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import ButtonPrimary from './ButtonPrimary';
 
-const AddCardForm = ({
-   cardName,
-   setCardName,
-   handleCardInput,
-   handleCardSubmit,
-   cardEditing,
-   setCardEditing,
+const AddDescForm = ({
+   desc,
+   setDesc,
+   handleDescInput,
+   handleDescInputSelect,
+   handleDescSubmit,
+   descEditing,
+   setDescEditing,
 }) => {
    return (
-      <form className={css(styles.addCardForm)} onSubmit={handleCardSubmit}>
+      <form className={css(styles.addDescForm)} onSubmit={handleDescSubmit}>
          <textarea
             type="text"
-            placeholder="Saisissez un titre pour cette carte..."
-            className={css(styles.addCardInput)}
-            onChange={handleCardInput}
+            placeholder="Ajouter une description plus détaillée..."
+            className={css(styles.addDescInput)}
+            onChange={handleDescInput}
             autoFocus={true}
-            onKeyPress={(event) => event.charCode === 13 && handleCardSubmit(event)}
+            value={desc}
+            onFocus={(event) => event.target.select()}
          />
-         <div className={css(styles.addCardButtons)}>
-            <ButtonPrimary label="Ajouter une carte" type="submit" />
+         <div className={css(styles.addDescButtons)}>
+            <ButtonPrimary label="Enregistrer" type="submit" />
             <button
-               className={css(styles.addCardClose)}
-               type="button"
+               className={css(styles.addDescClose)}
                onClick={() => {
-                  cardName !== '' && setCardName('');
-                  setCardEditing(!cardEditing);
+                  setDescEditing(!descEditing);
+                  setDesc('');
                }}
             >
                <i className="icon-close"></i>
@@ -37,19 +38,19 @@ const AddCardForm = ({
    );
 };
 
-export default AddCardForm;
+export default AddDescForm;
 
 const styles = StyleSheet.create({
-   addCardInput: {
+   addDescInput: {
       backgroundColor: 'white',
-      padding: '6px 8px',
+      padding: '8px 12px',
       color: '#172b4d',
-      borderRadius: 3,
-      fontSize: 14,
       fontFamily:
          "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
       width: '100%',
       boxSizing: 'border-box',
+      borderRadius: 3,
+      fontSize: 14,
       height: 66,
       border: 'none',
       boxShadow: '0 1px 0 rgba(9,30,66,.25)',
@@ -57,14 +58,15 @@ const styles = StyleSheet.create({
          fontFamily:
             "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
          color: '#5e6c84',
+         fontSize: 14,
       },
    },
-   addCardButtons: {
+   addDescButtons: {
       marginTop: 4,
       display: 'flex',
       alignItems: 'center',
    },
-   addCardClose: {
+   addDescClose: {
       background: 'none',
       border: 'none',
       fontSize: 24,

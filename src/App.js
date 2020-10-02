@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Header from './components/Header';
 import AddListForm from './components/AddListForm';
@@ -6,10 +6,8 @@ import AddListButton from './components/AddListButton';
 import List from './components/List';
 import OusideClick from './components/OutsideClick';
 import './icons.css';
-import Cookies from 'js-cookie';
 
 const App = () => {
-   // States declaration
    const [lists, setLists] = useState([]);
    const [listEditing, setListEditing] = useState(false);
    const [listName, setListName] = useState('');
@@ -18,24 +16,15 @@ const App = () => {
 
    OusideClick(ref, () => {
       listEditing && setListEditing(!listEditing);
-      setListName('');
    });
-
-   useEffect(() => {
-      const fetchLists = () => {
-         const usersLists = Cookies.get('lists');
-         usersLists && setLists(JSON.parse(usersLists));
-      };
-      fetchLists();
-   }, []);
 
    const handleListNameSubmit = (event) => {
       event.preventDefault();
 
-      // Check if user did type a name
       if (listName !== '') {
          addList();
          setListEditing(!listEditing);
+         setListName('');
       }
    };
 
@@ -54,10 +43,22 @@ const App = () => {
       const listsCopy = [...lists];
 
       listsCopy.push(newList);
-
       setLists(listsCopy);
+   };
 
-      Cookies.set('lists', JSON.stringify(listsCopy), { expires: 7 });
+   const handleListDelete = (index) => {
+      const confirmDelete = window.confirm(
+         `Êtes-vous sûr de vouloir supprimer la liste ${lists[index].name} ?`,
+      );
+
+      if (confirmDelete) {
+         const listsCopy = [...lists];
+
+         const listToDelete = listsCopy.indexOf(index);
+         listsCopy.splice(listToDelete, 1);
+
+         setLists(listsCopy);
+      }
    };
 
    return (
@@ -68,7 +69,16 @@ const App = () => {
                <div className={css(styles.lists)}>
                   {lists.length > 0 &&
                      lists.map((list, index) => {
-                        return <List list={list} key={index} index={index} />;
+                        return (
+                           <List
+                              list={list}
+                              lists={lists}
+                              setLists={setLists}
+                              key={index}
+                              index={index}
+                              handleListDelete={handleListDelete}
+                           />
+                        );
                      })}
                </div>
                <div ref={ref}>
@@ -83,7 +93,6 @@ const App = () => {
                         lists={lists}
                         setLists={setLists}
                         listName={listName}
-                        setListName={setListName}
                         handleListNameSubmit={handleListNameSubmit}
                         handleListNameInput={handleListNameInput}
                         listEditing={listEditing}

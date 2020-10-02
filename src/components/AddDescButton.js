@@ -1,38 +1,37 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-const AddListButton = ({ lists, listEditing, setListEditing }) => {
+const AddDescButton = ({ label, descEditing, setDescEditing }) => {
    return (
-      <button className={css(styles.addList)} onClick={() => setListEditing(!listEditing)}>
-         <i className={`icon-add ${css(styles.addListIcon)}`}></i>
-         {lists.length > 0 ? 'Ajouter une autre liste' : 'Ajouter une liste'}
+      <button className={css(styles.addDesc)} onClick={() => setDescEditing(!descEditing)}>
+         {label}
       </button>
    );
 };
 
-export default AddListButton;
+export default AddDescButton;
 
 const styles = StyleSheet.create({
-   addList: {
-      backgroundColor: 'hsla(0,0%,100%,.24)',
+   addDesc: {
+      backgroundColor: 'rgba(9,30,66,.04)',
       display: 'flex',
       alignItems: 'center',
       border: 'none',
       borderRadius: 3,
-      padding: '10px 12px',
+      padding: '8px 12px 24px 12px',
       fontFamily:
          "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
       fontSize: 14,
       transitionDuration: '85ms',
       transitionTimingFunction: 'ease-in',
       cursor: 'pointer',
+      width: '100%',
       boxSizing: 'border-box',
-      width: 272,
-      color: 'white',
+      color: '#5e6c84',
       textAlign: 'left',
-      ':hover': { backgroundColor: 'hsla(0,0%,100%,.32)' },
+      ':hover': { backgroundColor: 'rgba(9,30,66,.08)', color: '#172b4d' },
    },
-   addListIcon: {
+   addDescIcon: {
       fontSize: 16,
       marginRight: 2,
    },

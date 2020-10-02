@@ -7,6 +7,7 @@ const AddlistForm = ({
    handleListNameSubmit,
    listEditing,
    setListEditing,
+   listName,
 }) => {
    return (
       <form className={css(styles.addListForm)} onSubmit={handleListNameSubmit}>
@@ -16,6 +17,7 @@ const AddlistForm = ({
             className={css(styles.addListInput)}
             onChange={handleListNameInput}
             autoFocus={true}
+            value={listName}
          />
          <div className={css(styles.addListButtons)}>
             <ButtonPrimary label="Ajouter une liste" type="submit" />
@@ -38,22 +40,19 @@ const styles = StyleSheet.create({
       border: 'none',
       borderRadius: 3,
       padding: 4,
-      fontWeight: 500,
-      fontSize: 14,
-      transitionDuration: '85ms',
-      transitionTimingFunction: 'ease-in',
-      cursor: 'pointer',
       boxSizing: 'border-box',
       width: 272,
-      color: 'white',
    },
    addListInput: {
       padding: '8px 12px',
-      ':placeholder': {
-         color: 'red',
-      },
+      color: '#172b4d',
       width: '100%',
       boxSizing: 'border-box',
+      '::placeholder': {
+         fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+         color: '#5e6c84',
+      },
    },
    addListButtons: {
       marginTop: 4,

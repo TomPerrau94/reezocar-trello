@@ -4,19 +4,17 @@ import AddCardButton from './AddCardButton';
 import OusideClick from './OutsideClick';
 import Card from './Card';
 import AddCardForm from './AddCardForm';
-import ModalCard from './ModalCard';
 
-const List = ({ list, index }) => {
+const List = ({ list, index, lists, setLists, handleListDelete }) => {
    const [cardName, setCardName] = useState('');
    const [cardEditing, setCardEditing] = useState(false);
-   const [showModal, setShowModal] = useState(false);
 
    const ref = useRef();
 
    OusideClick(ref, () => {
-      if (cardName !== '') {
-         setCardEditing(!cardEditing);
+      if (cardName !== '' && cardEditing) {
          addCard();
+         setCardEditing(!cardEditing);
          setCardName('');
       } else if (cardEditing) {
          setCardEditing(!cardEditing);
@@ -40,20 +38,24 @@ const List = ({ list, index }) => {
 
    const addCard = () => {
       const newCard = {
+         id: Date.now(),
          name: cardName,
          followed: false,
          description: '',
       };
 
-      list.cards.push(newCard);
+      const listsCopy = [...lists];
+      const listToEdit = listsCopy.find((element) => element.id === list.id);
+
+      listToEdit.cards.push(newCard);
+      setLists(listsCopy);
    };
    return (
       <>
-         <ModalCard showModal={showModal} setShowModal={setShowModal} card={list} />
          <div className={css(styles.list)}>
             <div className={css(styles.listHeader)}>
                <h2 className={css(styles.listTitle)}>{list.name}</h2>
-               <button className={css(styles.listClose)}>
+               <button className={css(styles.listDelete)} onClick={() => handleListDelete(index)}>
                   <i className="icon-more"></i>
                </button>
             </div>
@@ -64,15 +66,16 @@ const List = ({ list, index }) => {
                         return (
                            <Card
                               card={card}
+                              list={list}
+                              lists={lists}
+                              setLists={setLists}
                               key={index}
                               index={index}
-                              showModal={showModal}
-                              setShowModal={setShowModal}
                            />
                         );
                      })}
                   </div>
-                  <div ref={ref}>
+                  <>
                      {!cardEditing ? (
                         <AddCardButton
                            cardEditing={cardEditing}
@@ -85,16 +88,18 @@ const List = ({ list, index }) => {
                            }
                         />
                      ) : (
-                        <AddCardForm
-                           cardName={cardName}
-                           setCardName={setCardName}
-                           handleCardSubmit={handleCardSubmit}
-                           handleCardInput={handleCardInput}
-                           cardEditing={cardEditing}
-                           setCardEditing={setCardEditing}
-                        />
+                        <div ref={ref}>
+                           <AddCardForm
+                              cardName={cardName}
+                              setCardName={setCardName}
+                              handleCardSubmit={handleCardSubmit}
+                              handleCardInput={handleCardInput}
+                              cardEditing={cardEditing}
+                              setCardEditing={setCardEditing}
+                           />
+                        </div>
                      )}
-                  </div>
+                  </>
                </>
             </div>
          </div>
@@ -124,8 +129,9 @@ const styles = StyleSheet.create({
       padding: '4px 8px',
       fontSize: 14,
       fontWeight: 600,
+      color: '#172b4d',
    },
-   listClose: {
+   listDelete: {
       fontSize: 16,
       background: 'none',
       border: 'none',

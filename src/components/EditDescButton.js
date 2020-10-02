@@ -1,39 +1,37 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-const AddCardButton = ({ label, cardEditing, setCardEditing }) => {
+const EditDescButton = ({ setDesc, originalDesc, label, descEditing, setDescEditing }) => {
    return (
-      <button className={css(styles.addCard)} onClick={() => setCardEditing(!cardEditing)}>
-         <i className={`icon-add ${css(styles.addCardIcon)}`}></i>
+      <button
+         className={css(styles.editDesc)}
+         onClick={() => {
+            setDescEditing(!descEditing);
+            setDesc(originalDesc);
+         }}
+      >
          {label}
       </button>
    );
 };
 
-export default AddCardButton;
+export default EditDescButton;
 
 const styles = StyleSheet.create({
-   addCard: {
+   editDesc: {
       backgroundColor: 'transparent',
-      display: 'flex',
-      alignItems: 'center',
       border: 'none',
       borderRadius: 3,
-      padding: '4px 8px',
+      padding: 0,
+      fontSize: 14,
       fontFamily:
          "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-      fontSize: 14,
       transitionDuration: '85ms',
       transitionTimingFunction: 'ease-in',
       cursor: 'pointer',
+      width: '100%',
       boxSizing: 'border-box',
-      width: 272,
-      color: '#5e6c84',
+      color: '#172b4d',
       textAlign: 'left',
-      ':hover': { backgroundColor: 'rgba(9,30,66,.08)', color: '#172b4d' },
-   },
-   addCardIcon: {
-      fontSize: 16,
-      marginRight: 2,
    },
 });
